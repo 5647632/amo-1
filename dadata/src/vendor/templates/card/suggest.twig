@@ -1,0 +1,98 @@
+<div class="{{config.classname_widget}}_suggestions-list ">
+	<div class="{{config.classname_widget}}_suggestions-head">
+		<div class="{{config.classname_widget}}_suggestions-head__title">Подсказки</div>
+		<div class="{{config.classname_widget}}-minimize" title="Свернуть/развернуть подсказки">
+			<span class="icon icon-arrow-top"></span>
+		</div>
+	</div>
+	<div class="{{config.classname_widget}}_suggestions-body custom-scroll">
+		<ul>
+			{% if suggests is defined and suggests|length > 0 %}
+				{% for key, suggest in suggests %}
+					<li class="{{config.classname_widget}}-suggest-item" data-id="{{key}}">
+						{% if type == 'party' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+								<div class="{{config.classname_widget}}-suggest-info-second">{{suggest.data.inn}} • {{suggest.data.address.value}}</div>
+							</div>
+						{%  elseif type == 'bank' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+								<div class="{{config.classname_widget}}-suggest-info-second">
+									<span>{{translate('suggest.data.opf.type.' ~ suggest.data.opf.type)}}</span> • <span>{{suggest.data.address.value}}</span>
+								</div>
+							</div>
+						{%  elseif type == 'address' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+								{% if suggest.data.geo_lat is not empty and suggest.data.geo_lon is not empty %}
+									<div class="{{config.classname_widget}}-suggest-info-second">
+										<span>{{suggest.data.geo_lat}}</span> <span>{{suggest.data.geo_lon}}</span>
+									</div>
+								{% endif %}
+							</div>
+						{%  elseif type == 'fio' or  type == 'fio_standart' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+							</div>
+						{%  elseif type == 'email' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+							</div>
+						{%  elseif type == 'phone' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.phone}}</div>
+								<div class="{{config.classname_widget}}-suggest-info-second">
+									<span>{{suggest.timezone}}</span> <span>{{suggest.region}}</span>
+								</div>
+							</div>
+						{%  elseif type == 'fms_unit' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+							</div>
+						{%  elseif type == 'fns_unit' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+								<div class="{{config.classname_widget}}-suggest-info-second">{{suggest.data.address}}</div>
+							</div>
+						{%  elseif type == 'postal_office' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+								<div class="{{config.classname_widget}}-suggest-info-second">{{suggest.address_str}}</div>
+							</div>
+						{%  elseif type == 'region_court' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+							</div>
+						{%  elseif type == 'country' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+							</div>
+						{%  elseif type == 'currency' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+							</div>
+						{%  elseif type == 'okved2' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+							</div>
+						{%  elseif type == 'okpd2' %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{{suggest.value|escape}}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{{suggest.value}}</div>
+							</div>
+						{% else %}
+							<div class="{{config.classname_widget}}-suggest-info" title="{% if is_custom %}{{suggest[dictionary.display_fields]|escape}}{% else %}{{suggest.value|escape}}{% endif %}">
+								<div class="{{config.classname_widget}}-suggest-info-first">{% if is_custom %}{{suggest[dictionary.display_fields]}}{% else %}{{suggest.value}}{% endif %}</div>
+							</div>
+						{% endif %}
+
+					</li>	
+				{% endfor %}
+			{% else %}
+				<li class="{{config.classname_widget}}-suggest-item">
+					<div class="{{config.classname_widget}}-suggest-empty">{{ translate('errors.nothings.not_found') }}</div>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+</div>

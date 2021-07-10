@@ -1,0 +1,32 @@
+{
+    "widget":{
+        "name":"DaData - Реквизиты ИНН, БИК, подсказки ФИО, адреса",
+        "short_description":"Автоматические заполнение реквизитов",
+        "description": "<div><div class='widget_header__description_h'>Виджет помогает быстро заполнить:</div><ul style='margin-left: 10px'><li style='list-style-type: disc'>Реквизиты организации по ИНН или названию</li><li style='list-style-type: disc'>Реквизиты банка по БИК или названию</li><li style='list-style-type: disc'>Полный и правильный адрес с использованием автодополнения</li><li style='list-style-type: disc'>Подсказка по ФИО</li><li style='list-style-type: disc'>Подсказка Email с автодополнением</li><li style='list-style-type: disc'>Получить информацию о часовом поясе и других данных по номеру телефона</li><li style='list-style-type: disc'>Реквизиты УФМС отделений</li><li style='list-style-type: disc'>Реквизиты налоговых отделений</li><li style='list-style-type: disc'>Подсказки почтовых отделений</li><li style='list-style-type: disc'>Реквизиты организаций судов и отделений</li><li style='list-style-type: disc'>Подсказа стран мира с автодополнением</li><li style='list-style-type: disc'>Подсказка валюты</li><li style='list-style-type: disc'>Подсказка ОКВЭД</li><li style='list-style-type: disc'>Подсказка ОКПД</li><li style='list-style-type: disc;'>Любые подсказки с заполнением полей на основе вашего списка в CSV. Например список товаров с характеристиками.</li></ul></br><p>Виджет одновременно может заполнять поля в разных сущностях, если они отображаются в текущей карточке.</p></div><p class='widget_header__description_h'>Установка</p><p>Для работы виджет использует данные сервиса <a href='https://dadata.ru/?ref=63996' target='_blank'>Dadata.ru</a>. Вам необходимо предварительно зарегистрироваться, подтвердить e-mail и получить бесплатный API ключ. После этого введите данные в настройках виджета и нажмите “Сохранить”.</p><p class='widget_header__description_h'>Настройка</p>После установки, перейдите в расширенные настройки (Настройки amoCRM > Автоподсказки). Здесь вы можете сделать сопоставление полей amoCRM с полями из DaData и заполнить свои справочники, например прайс-лист.</p><br><p>Для получения некоторых типов данных может потребоваться платная подписка на сервис Dadata. Подробнее в <a href='https://496089-analytics3.tmweb.ru' target='_blank'>полном описании</a>.<br>",
+        "tour_description": "<div><div class='widget_header__description_h'>Виджет помогает быстро заполнить:</div><ul style='margin-left: 25px'><li style='list-style-type: disc'>Реквизиты организации по ИНН или названию</li><li style='list-style-type: disc'>Реквизиты банка по БИК или названию</li><li style='list-style-type: disc'>Полный и правильный адрес с использованием автодополнения</li><li style='list-style-type: disc'>Подсказка по ФИО</li><li style='list-style-type: disc'>Подсказка Email с автодополнением</li><li style='list-style-type: disc'>Получить информацию о часовом поясе и других данных по номеру телефона</li><li style='list-style-type: disc'>Реквизиты УФМС отделений</li><li style='list-style-type: disc'>Реквизиты налоговых отделений</li><li style='list-style-type: disc'>Подсказки почтовых отделений</li><li style='list-style-type: disc'>Реквизиты организаций судов и отделений</li><li style='list-style-type: disc'>Подсказа стран мира с автодополнением</li><li style='list-style-type: disc'>Подсказка валюты</li><li style='list-style-type: disc'>Подсказка ОКВЭД</li><li style='list-style-type: disc'>Подсказка ОКПД</li><li style='list-style-type: disc;'>Любые подсказки с заполнением полей на основе вашего списка в CSV. Например список товаров с характеристиками.</li></ul></br><p>Виджет одновременно может заполнять поля в разных сущностях, если они отображаются в текущей карточке.</p></div>"
+    },
+    "settings":{
+        "token":"Токен",
+        "widget_id":"ID виджета",
+        "widget_code": "Код виджета",
+        "active_users": "Активные пользователи",
+        "admin_users": "Администраторы",
+        "phone": "Номер телефона",
+        "api_token": "API ключ из Dadata",
+        "standard_token": "Секретный ключ для стандартизации",
+        "plan": "Тарифный план"
+    },
+    "dp": {
+        "suggests": "Подсказки"
+    },
+    "userLang": {
+        "agree_error_header": "Необходимо дать согласие",
+        "agree_error_message": "на передачу данных аккаунта amoCRM",
+        "agree_text": "Подтвердите согласие на передачу данных аккаунта на сторонний сервер",
+        "save_error_header": "Не удалось сохранить настройки",
+        "save_error_message": "Попробуйте повторить попытку позднее"
+    },
+    "advanced": {
+      "title": "Автоподсказки"
+    }
+}

@@ -1,0 +1,41 @@
+{% if selected_count > 0 %}
+    <div id="list_multiple_actions" class="list-multiple-actions">
+    	{% if multi %}
+    		<div class="list-multiple-actions__inner">
+            	<div class="list-multiple-actions__actions-wrapper">
+                    {% include 'controls/checkbox'~tpl_format with {
+                        'id': 'multiple_actions_checkbox',
+                        'checked': selected_count == items_count,
+                        'class_name': selected_count == items_count ? 'multiple-actions__top-checkbox' : 'control-checkbox-dash multiple-actions__top-checkbox',
+                    } %}
+                	{% for action in actions %}
+                        {% if action.show_multi %}
+                            <div class="list-multiple-actions__item js-list-multiple-actions__item" data-type="{{action.code}}" data-params="">
+                                <span class="list-multiple-actions__item__icon icon {{action.icon}}"></span>{{action.title}}
+                                <span class="list-multiple-actions__item-more js-list-multiple-actions__item-more">
+                                    <span class="list-multiple-actions__item__icon icon icon-v-dots-2"></span>
+                                    ещё
+                                </span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div id="multiple_total" class="list-multiple-actions__total">Выбрано {{selected_count}}<span
+                    class="list-multiple-actions__total-sum h-hidden" id="actions__total__sum" data-before="на"><span
+                        class="spinner-icon list-multiple-actions__total-sum__spinner"></span></span></div>
+            </div>   
+        {% else %} 
+        	{% for action in actions %}
+                {% if action.show %}
+                    <div class="list-multiple-actions__item js-list-multiple-actions__item" data-type="{{action.code}}" data-params="">
+                        <span class="list-multiple-actions__item__icon icon {{action.icon}}"></span>{{action.title}}
+                        <span class="list-multiple-actions__item-more js-list-multiple-actions__item-more">
+                            <span class="list-multiple-actions__item__icon icon icon-v-dots-2"></span>
+                            ещё
+                        </span>
+                    </div>
+                {% endif %}
+            {% endfor %}
+    	{% endif %}
+    </div>
+{% endif %}

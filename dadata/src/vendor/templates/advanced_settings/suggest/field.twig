@@ -1,0 +1,33 @@
+{% if  entity_selected == 1 or entity_selected == 'contact' %}
+    {% set temp_fields = current_account.contactCfields %}
+{% elseif entity_selected == 2 or entity_selected == 'lead' %}
+    {% set temp_fields = current_account.leadCfields %}
+{% elseif entity_selected == 3 or entity_selected == 'company' %}
+    {% set temp_fields = current_account.companyCfields %}
+{% elseif entity_selected == 12 or entity_selected == 'customer' %}
+    {% set temp_fields = current_account.customerCfields %}	
+{% endif %}
+
+{% set fields = [] %}
+
+{% set fields = fields|merge([{'id': 'none', 'value': 'Выберите поле' }]) %}
+
+{% for field in temp_fields.all() %}
+    {% set fields =  fields|merge([{'id': field.key, 'value': field.name }]) %}
+{% endfor %}
+
+{% if current_account.getCfByKey(entity_selected, selected) %}
+    {% set selected = current_account.getCfByKey(entity_selected, selected).name %}
+{% else %}
+    {% set selected = '' %}
+{% endif %}
+<div class="{{config.classname_widget}}-label">Поле</div>
+{% include ('controls/suggest' ~ tpl_format) with {
+    'id': 'field_' ~ id,
+    'name': name,
+    'placeholder': 'Выберите поле',
+    'selected': selected,
+    'items': fields,
+    'value_id': selected,
+    'input_class_name': congig.classname_widget ~ '-field-suggest'
+} %}

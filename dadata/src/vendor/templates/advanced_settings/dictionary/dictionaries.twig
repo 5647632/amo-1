@@ -1,0 +1,50 @@
+
+{% set list_column = [
+	{'code': 'id',  'title': translate('advanced_settings.list.id'), 'template': 'id', 'sortable': false},
+	{'code': 'name', 'title': translate('advanced_settings.list.name'), 'template': 'name', 'sortable': true},
+	{'code': 'row_total', 'title': translate('advanced_settings.list.count_row'), 'template': 'text', 'sortable': true},
+	{'code': 'column_total', 'title': translate('advanced_settings.list.count_column'), 'template': 'text', 'sortable': true},
+	{'code': 'status', 'title': translate('advanced_settings.list.status'), 'template': 'text', 'sortable': true},
+	{'code': 'updated_by', 'title': translate('advanced_settings.list.updated_by'), 'template': 'text', 'classname': 'f5-d-none f5-d-xl-table-cell', 'sortable': true},
+	{'code': 'updated_at', 'title': translate('advanced_settings.list.updated_at'), 'template': 'text', 'classname': 'f5-d-none f5-d-xl-table-cell', 'sortable': true}
+] %}
+
+<div class="{{config.classname_widget}}-section-wrapper list-dictionaries list__body__holder js-hs-wrapper hs-wrapper_hide-boundary hs-wrapper">
+	
+{% set rows = [] %}
+
+{% for item in dictionaries %}
+	{% set row = {} %}
+	{% for column in list_column %}
+		{% if column.code == 'name' %}
+			{% set row =  row|merge({'name': item.name }) %}
+		{% elseif column.code == 'row_total' %}
+			{% set  row = row|merge({'row_total': item.row_total }) %}
+		{% elseif column.code == 'column_total' %}
+			{% set  row = row|merge({'column_total': item.column_total }) %}
+		{% elseif column.code == 'status' %}
+			{% set row = row|merge({'status': translate('advanced_settings.list.status.' ~ item.active)}) %}
+		{% elseif column.code == 'updated_by' %}
+			{% set manager = managers[item.updated_by] %}
+			{% set value =  manager is not empty ?  manager.title : translate('errors.managers.not_found') %}
+			{% set row = row|merge({'updated_by': value}) %}
+		{% elseif column.code == 'updated_at' %}
+			{% set row = row|merge({'updated_at': moment(item.modified_at, "YYYY-MM-DD HH:mm:ss").format('DD.MM.YYYY HH:mm') }) %}
+		{% else %}
+			{% set row = row|merge({ (column.code): item[column.code] }) %}
+		{% endif %}
+	{% endfor %}
+	{% set rows = rows|merge([row]) %}
+{% endfor %}
+
+{% include 'controls/list'~tpl_format  with {
+	'with_checkboxes': true,
+	'add_row': true,
+	'text_add': 'Добавить новый справочник',
+	'sort_column': sort_column,
+	'sort': sort_order,
+	'columns': list_column,
+	'items': rows
+} %}
+
+</div>

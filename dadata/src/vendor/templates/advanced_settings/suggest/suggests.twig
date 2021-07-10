@@ -1,0 +1,53 @@
+
+{% set list_column = [
+	{'code': 'id',  'title': translate('advanced_settings.list.id'), 'template': 'id', 'sortable': false},
+	{'code': 'field', 'title': translate('advanced_settings.list.field'), 'template': 'name', 'sortable': true},
+	{'code': 'entity', 'title': translate('advanced_settings.list.entity'), 'template': 'text', 'sortable': true},
+	{'code': 'type', 'title': translate('advanced_settings.list.suggest_type'), 'template': 'text', 'sortable': true},
+	{'code': 'status', 'title': translate('advanced_settings.list.status'), 'template': 'text', 'sortable': true},
+	{'code': 'updated_by', 'title': translate('advanced_settings.list.updated_by'), 'template': 'text', 'classname': 'f5-d-none f5-d-xl-table-cell', 'sortable': true},
+	{'code': 'updated_at', 'title': translate('advanced_settings.list.updated_at'), 'template': 'text', 'classname': 'f5-d-none f5-d-xl-table-cell', 'sortable': true}
+] %}
+
+<div class="{{config.classname_widget}}-section-wrapper list-suggests list__body__holder js-hs-wrapper hs-wrapper_hide-boundary hs-wrapper">
+{% set rows = [] %}
+
+{% for item in suggests %}
+	{% set row = {} %}
+	{% for column in list_column %}
+		{% if column.code == 'field' %}
+
+			{% set field = current_account.getCfByKey(item.entity, item.field) %}
+			{% set value = field is not empty ? field.name : translate('errors.field.not_found') %}
+			{% set row =  row|merge({'field': value }) %}
+
+		{% elseif column.code == 'entity' %}
+			{% set  row = row|merge({'entity': translate('advanced_settings.entity.' ~ item.entity) }) %}
+		{% elseif column.code == 'type' %}
+			{% set row = row|merge({'type': get_suggest_type_name(item.type) }) %}
+		{% elseif column.code == 'updated_by' %}
+			{% set manager = managers[item.updated_by] %}
+			{% set value =  manager is not empty ?  manager.title : translate('errors.managers.not_found') %}
+			{% set row = row|merge({'updated_by': value}) %}
+		{% elseif column.code == 'status' %}
+			{% set row = row|merge({'status': translate('advanced_settings.list.status.' ~ item.active)}) %}
+		{% elseif column.code == 'updated_at' %}
+			{% set row = row|merge({'updated_at': moment(item.modified_at, "YYYY-MM-DD HH:mm:ss").format('DD.MM.YYYY HH:mm') }) %}
+		{% else %}
+			{% set row = row|merge({ (column.code): item[column.code] }) %}
+		{% endif %}
+	{% endfor %}
+	{% set rows = rows|merge([row]) %}
+{% endfor %}
+
+{% include 'controls/list'~tpl_format  with {
+	'with_checkboxes': true,
+	'add_row': true,
+	'text_add': 'Добавить новую подсказку',
+	'sort_column': sort_column,
+	'sort': sort_order,
+	'columns': list_column,
+	'items': rows
+} %}
+
+</div>

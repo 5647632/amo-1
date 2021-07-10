@@ -1,0 +1,12 @@
+{% include 'controls/list/multi_actions'~tpl_format with {
+	'multi': multi,
+	'items_count': items_count,
+	'selected_count': selected_count,
+	'actions': [
+		{'code': 'edit', 'title': 'Редактировать', 'icon': 'icon-pencil-light-gray', 'show_multi': false, 'show': true},
+		{'code': 'clone', 'title': 'Клонировать', 'icon': 'icon-tag-plus-dark', 'show_multi': false, 'show': true},
+		{'code': 'disable', 'title': 'Отключить', 'icon': 'icon-amoform-checkbox-hide', 'show_multi': true, 'show': item_show == 'disable'},
+		{'code': 'unable', 'title': 'Включить', 'icon': 'icon-amoform-checkbox-inform', 'show_multi': true, 'show': item_show == 'unable'},
+		{'code': 'delete', 'title': 'Удалить', 'icon': 'icon-delete-trash', 'show_multi': true, 'show': true},
+	]
+} %}

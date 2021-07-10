@@ -1,0 +1,47 @@
+<div class="{{config.classname_widget}}-modal-head">
+    Информация
+</div>
+<div tabindex="-1" class="{{config.classname_widget}}-modal-body">
+	<div class="{{config.classname_widget}}--info">
+	    {% if attributes  is defined and attributes is not empty %}
+	    	<div class="{{config.classname_widget}}_accardeon">
+	    	{% for group_key, group in attributes %}
+    			<div class="{{config.classname_widget}}_accardeon-item">
+	    			<div class="{{config.classname_widget}}_accardeon-label" data-label="{{group_key}}">{{ translate('attrubute.group.' ~group_key) }}</div>
+	    			<div class="{{config.classname_widget}}_accardeon-body"  data-code="{{group_key}}" {% if group_key != 'general' %}style="display:none"{% endif %}>
+			    		{% for key in group %}
+				    		{% set value = getValue(key, suggest.type) %}
+							{% if value is not empty and value != null %}
+								<div class="{{config.classname_widget}}--info-item">
+									<div class="{{config.classname_widget}}--info-label" data-field="{{key.id}}">{{ key.value }}</div>
+									{% if translate(suggest.type ~'.'~ key.id ~ '.' ~ value) %}
+										<div class="{{config.classname_widget}}--info-value">{{ translate(suggest.type ~'.'~ key.id ~ '.' ~ value) }}</div>
+									{% else %}
+										<div class="{{config.classname_widget}}--info-value">{{ value }}</div>
+									{% endif %}
+								</div>
+					    	{% endif %}
+					    {% endfor %}
+
+				    </div>
+	    		</div>	
+	    	{% endfor %}
+	    	</div>
+	    {% else  %}
+	    	Ничего не получено
+	    {% endif %}
+	</div>
+</div>
+<div class="{{config.classname_widget}}-modal-footer">
+    <div class="{{config.classname_widget}}-footer-left">
+        {% include 'controls/button' ~ tpl_format with {
+            'id': suggest.id,
+            'class_name': config.classname_widget ~ '-suggest-accept button-input_blue',
+            'text': "Применить"
+        } %}
+        {% include 'controls/cancel_button' ~ tpl_format with {
+            'id': suggest.id,
+            'class_name': config.classname_widget ~ '-suggest-cancel'
+        } %}
+    </div>
+</div>

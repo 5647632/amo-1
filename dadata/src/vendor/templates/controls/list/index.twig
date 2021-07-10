@@ -1,0 +1,120 @@
+{% if with_checkboxes is not defined %}{% set with_checkboxes = true %}{% endif %}
+{% if sort is not defined %}{% set sort = 'DESC' %}{% endif %}
+{% if sort_column is defined %}
+  {% set sort_column_temp = sort_column %}
+  {% set sort_column = false %}
+  {% set sort_column_isset = false %}
+  {% for v in columns %}
+    {% if v.code == sort_column_temp %}
+      {% set sort_column = sort_column_temp %}
+      {% set sort_column_isset = true %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% import 'controls/list/list_macros'~tpl_format as templates %}
+
+
+<div class="custom-scroll list__table__holder {{class_name}}" style="margin-bottom: 0px; padding-left: 0px">
+	<div class="js-scroll-container list__table " id="list_table" style="width: 100%; padding: 0px">
+		<div class="js-list-columns-group list__col-group" id="list_col_group">
+			{% for column in columns  %}
+				<div class="js-list-column list__col-group__column js-list-column-code-{{ column.code }} list-column-code-{{ column.code }} {{column.classname}}"
+					data-field-code="{{ column.code }}"
+					style="{% if column.width %}width: {{ column.width }}{% endif %}">
+				</div>
+			{% endfor %}
+		</div>
+
+		{# head #}
+		<div class="list-row list-row-head js-list-row js-list-row-head " id="list_head">
+			{% for column in columns %}
+				<div class="list-row__cell js-hs-prevent list-row__cell-head cell-head list-row__cell-template-{{ column.template }} list-row__cell-{{ column.code }}  {% if column.sortable %} js-cell-head_sortable {% endif %} {% if column.resizable %} js-resizable-cell ui-resizable {% endif %} {{column.classname}} {% if sort_column == column.code %}cell-head_sorted{% endif %}" data-field-template="{% if column.template is defined %}{{column.template}}{% set column = column|merge({'code': column.code}) %}{% else %}{{column.code}}{% endif %}"  data-field-code="{{ column.code }}" {% if sort_column == false or sort_column == column.code %} data-current-sort="{{ sort }}" {% endif %}>
+					<div class="cell-head__inner">
+						{% if with_checkboxes and loop.first and column.code == 'id' %}
+							{% include 'controls/checkbox' ~ tpl_format with {'id': 'list_all_checker'} %}
+						{% else %}
+							<div class="cell-head__inner-content">
+								<span class="cell-head__dots icon icon-v-dots"></span>
+								<span class="cell-head__title">{{ column.title }}</span>
+								{% if column.sortable %}
+									<span class="cell-head__icon">
+										<span class="cell-head__icon-sortable cell-head__icon-sortable_{{sort|lower}}"></span>
+										<span class="cell-head__icon-close js-cell-head__icon-close">
+											<svg class="svg-icon svg-common--cross-close-dims">
+												<use xlink:href="#common--cross-close"></use>
+											</svg>
+										</span>
+									</span>
+								{% endif %}
+							</div>
+							{% if column.resizable %}
+								<div class="cell-head__resize-ghost"></div>
+							{% endif %}		
+						{% endif %}
+					</div>
+					{% if column.resizable %}
+						<div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div>
+					{% endif %}
+				</div>	
+			{% endfor %}
+		</div>	
+		{# head end #}
+		{# add item row add  #}
+		{% if add_row %}
+			<div data-id="0" class="list-row js-list-row js-pager-list-item__1  js-item-id-0 list-row_adding " id="list_item_0">
+				{% for column in columns %}
+					{% if with_checkboxes and loop.first and column.code == 'id' %}
+						<div class="list-row__cell js-list-row__cell list-row__cell-template-id list-row__cell-id ">
+							<div class="content-table__item__inner" style="overflow:visible">
+								{% include 'controls/checkbox' ~ tpl_format with {'id': 'lead_0', 'value': '0', 'disabled': true } %}
+							</div>
+						</div>
+					{% else %}
+						<div class="list-row__cell js-list-row__cell list-row__cell-template-text list-row__cell-{{column.code}} {{column.classname}}" data-field-code="{{column.code}}" data-field-id="{{column.id}}">
+							{% if column.template == 'name' %}
+								<div class="content-table__item__inner" title="Добавить новый шаблон">
+								  <span class="block-selectable">{{text_add}}</span>
+								</div>
+							{% else %}
+								<div class="content-table__item__inner" title="">
+  									<span class="block-selectable">&nbsp;</span>
+  								</div>
+							{% endif %}
+						</div>
+					{% endif %}
+				{% endfor %}
+	        </div> 
+		{% endif %}
+
+		{# items start #}
+		{% if items is defined and items|length %}
+			{% for item in items %}
+				<div class="list-row js-list-row {{ item_class_name }} {{item.class_name}}" id="list_item_{{item.id}}" data-id="{{item.id}}" {{ item.additional_data }} >
+					{% for column in columns %}
+						{% if with_checkboxes and loop.first and column.code == 'id' %}
+							<div class="list-row__cell js-list-row__cell list-row__cell-template-id list-row__cell-id ">
+								<div class="content-table__item__inner" style="overflow:visible">
+									{% include 'controls/checkbox' ~ tpl_format with {'id': 'lead_'~ item.id, 'value': item.id, } %}
+								</div>
+							</div>
+						{% else %}
+							<div class="list-row__cell js-list-row__cell list-row__cell-template-{{column.template}} list-row__cell-{{column.code}} {{column.classname}}" data-field-code="{{column.code}}" data-field-id="{{column.id}}">
+								{% if column.template == 'name' %}
+									{{ templates.template_name(item[column.code]) }}
+								{% elseif column.template == 'text' %}
+									{{ templates.template_text(item[column.code]) }}
+								{% elseif column.template == 'actions' %}
+									{{ templates.template_actions(actions, tpl_format)  }}
+								{% else %}
+									{{ templates.template_text(item[column.code]) }}
+								{% endif %}
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% endif %}	
+		{# items end #}
+	</div>
+</div>

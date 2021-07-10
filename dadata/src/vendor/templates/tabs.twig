@@ -1,0 +1,15 @@
+<div class="{{config.classname_widget}}-advanced-settings-top-tabs">
+	<div id="{{config.classname_widget}}_advanced_settings_tabs_inner" class="{{config.classname_widget}}-advanced-settings-tabs-inner">
+		<ul id="{{config.classname_widget}}_settings_tabs" class="clearfix">
+			{% for tab in tabs %}
+                <li class="{{config.classname_widget}}-advanced-settings-tab-item {% if active_tab == tab.code %} active {% endif %}" data-tab="{{tab.code}}">{{tab.title}}</li>
+            {% endfor %}
+		</ul>
+	</div>
+</div>
+<div class="{{config.classname_widget}}-advanced-settings-contents">
+	<div id="{{config.classname_widget}}_advanced_settings_tab_contents_inner" class="{{config.classname_widget}}-advanced-settings-tab-contents" tabindex="-1"></div>
+	{% if loader_classname is defined %}
+        {% include 'advanced_settings/loader' ~ tpl_format with {'classes': loader_classname} %}
+    {% endif %}
+</div>

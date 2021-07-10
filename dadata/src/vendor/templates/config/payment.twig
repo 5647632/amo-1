@@ -1,0 +1,70 @@
+<div class="{{config.classname_widget}}-settings-payment">
+    {% set total = 0 %}
+    {% if config.is_free %}
+        <div class="{{config.classname_widget}}-settings-payment-info-price">
+            <span>{{ translate('payment.status.free.info')|raw }}</span>
+        </div>
+    {% elseif config.is_fixed %}
+        {% set total = config.price %}
+        <div class="{{config.classname_widget}}-settings-payment-info-price">
+            {% set price = config.price|number_format(0, '.', ' ') %}
+            <span>{{ translate('payment.status.fixed.info', {'price': price})|raw }}</span>
+        </div>
+        <div class="{{config.classname_widget}}-payment-status fixed-status-{{config.status}}">{{ translate('payment.status.fixed.' ~ config.status) }} {% if (config.status_to is defined) and (config.status_to is not null) %} {{ config.statusTo().format('DD.MM.YYYY') }} {% endif %}</div>
+    {% else %}
+        <div class="{{config.classname_widget}}-settings-payment-info-price">
+            <span>{{ translate('payment.status.subscribe.info', {'price': config.price})|raw }}</span>
+        </div>
+        <div class="{{config.classname_widget}}-payment-status subsribe-status-{{config.status}}">{{ translate('payment.status.subscribe.' ~ config.status) }} {% if config.status_to is defined and config.status_to is not empty and config.status != -2 %}{{ config.statusTo().format('DD.MM.YYYY') }} {% endif %}</div>
+        {% if config.status  != -2 %}
+            <form id="{{config.classname_widget}}_payment_form">
+                {% set month_with_gift_selected = 0 %}
+                <div class="{{config.classname_widget}}-payment-choises clearfix">
+                    {% for key, month in config.months %}
+                        <div class="{{config.classname_widget}}-payment-choise {% if config.selected_period == month %} active {% set month_with_gift_selected = month + config.gifts[key] %}{% endif %} {% if config.gifts[key] > 0 %} with-gift {% else %} without-gift {% endif %}" data-months="{{month}}" data-gift="{{config.gifts[key]}}">
+                            {{ translate('payment.choise', {'pluraze_months': pluralize(month, translate('pluralize.months')) }) }}
+                            {% if config.gifts[key] > 0 %}
+                                <div class="{{config.classname_widget}}-payment-choise-gift">
+                                    {{ translate('payment.months.gift', {'monthsgift': config.gifts[key]}) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="{{config.classname_widget}}-payment-results clearfix">
+                    <div class="{{config.classname_widget}}-payment-result-left">
+                        {{ translate('payment.user.count', {'user_count': config.user_count}) }}<br>
+                        <span id="{{config.classname_widget}}_payment_period">{% if config.status_to is defined and config.status_to is not empty  and config.status != -2 %}{{ config.calcStatusToFromMonths(month_with_gift_selected).format('DD.MM.YYYY') }} {% endif %}</span>
+                    </div>
+                    <div class="{{config.classname_widget}}-payment-result-right">
+                        <span id="{{config.classname_widget}}_payment_sum">{{ config.selected_period * config.price * config.user_count }} {{ translate('payment.valut') }}.</span>
+                    </div>
+                </div>
+                <div class="{{config.classname_widget}}-payment-button">
+                    <input type="hidden" name="pay_months" value="0">
+                    <input type="hidden" name="pay_users" value="{{config.min_user_selected}}">
+                    <input type="hidden" name="pay_sum" value="0">
+                    <input type="hidden" name="widget_code" value="{{local_config.widget_code}}">
+                    <button type="button" class="button-input button-input_blue" id="{{config.classname_widget}}_payment_button">
+                        <span class="button-input-inner"><span class="button-input-inner__text">{{translate('action.payment.online')}}</span></span>
+                    </button>
+                </div>
+                <div class="{{config.classname_widget}}-payment-alter-text">
+                    {{payment.alter.text}}
+                </div>
+            </form>
+        {% endif %}
+    {% endif %}
+    {% if  config.is_fixed %}
+        <div class="{{config.classname_widget}}-settings-payment-action-wrapper">
+            <div class="{{config.classname_widget}}-settings-payment-actions">
+                <button type="button" class="button-input {{config.classname_widget}}-payment-button button-input_blue" tabindex="" id="payment-online">
+                    <span class="button-input-inner ">
+                        <span class="button-input-inner__text">{{ translate('action.payment.online') }}</span>
+                    </span>
+                </button>
+                <div class="{{config.classname_widget}}-settings-payment-total">{{ total|number_format(0, '.', ' ') }} {{ translate('payment.valut') }}</div>
+            </div>
+        </div>
+    {% endif %}   
+</div>

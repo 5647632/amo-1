@@ -1,0 +1,87 @@
+<div class="{{config.classname_widget}}-modal-head">
+    Редактирование подсказки
+</div>
+<div class="{{config.classname_widget}}-modal-body">
+    <form class="" id="{{config.classname_widget}}-suggest_edit">
+        <input type="hidden" name="id" value="{{suggest.id}}">
+        <div class="{{config.classname_widget}}-field">
+            <div class="{{config.classname_widget}}-row">
+                {% include ('advanced_settings/suggest/entity_field' ~ tpl_format) with {
+                    'id': suggest.id,
+                    'entity_name': 'entity',
+                    'field_name': 'field',
+                    'entity_selected': suggest.entity,
+                    'field_selected': suggest.field,
+                    'title_field': 'При начале ввода в этом поле будут срабатывать подсказки'
+                } %}
+            </div>
+        </div>  
+        <div class="{{config.classname_widget}}-field">
+            <div class="{{config.classname_widget}}-label">Справочник</div>
+            <div class="{{config.classname_widget}}-row">
+                <div class="{{config.classname_widget}}-field-value ">
+                    {% include ('controls/select' ~ tpl_format) with {
+                        'id':  'suggest_type_' ~ suggest.id,
+                        'name': 'type',
+                        'selected': suggest.type,
+                        'items': suggest_types
+                    } %}
+                </div>
+                <div class="{{config.classname_widget}}-field-value">
+                    {% include ('controls/checkbox' ~ tpl_format) with {
+                        'id': 'suggest_show_card_' ~ suggest.id,
+                        'value': suggest.show_card,
+                        'name': 'show_card',
+                        'checked': suggest.show_card,
+                        'text': 'Показывать карточку'
+                    } %}
+                </div>
+            </div>
+        </div>
+        <div class="{{config.classname_widget}}-field">
+            <div class="{{config.classname_widget}}-label" style="padding: 0px">Заполнение полей</div>
+            <div class="{{config.classname_widget}}-relations-list">
+                {% for relation in suggest.relations %}
+                    {% include 'advanced_settings/suggest/relation' ~ tpl_format with {
+                        'index': loop.index0,
+                        'relation': relation,
+                        'type': suggest.type
+                    } %}    
+                {% endfor %}
+            </div>
+            <div class="{{config.classname_widget}}-relation-action {{config.classname_widget}}-row">
+                {% include 'controls/button' ~ tpl_format with {
+                    'id': 'create_relation_' ~ suggest.id,
+                    'class_name': config.classname_widget ~ '-suggest-relation-add button-input_blue',
+                    'text': "Добавить связь"
+                } %}
+                {% include 'controls/button' ~ tpl_format with {
+                    'id': 'create_relation_custom_' ~ suggest.id,
+                    'class_name': config.classname_widget ~ '-suggest-relation-add custom button-input_blue',
+                    'text': "Добавить составную связь"
+                } %}
+            </div>
+        </div>  
+    </form>
+</div>
+<div class="{{config.classname_widget}}-modal-footer">
+    <div class="{{config.classname_widget}}-footer-left">
+        {% include 'controls/button' ~ tpl_format with {
+            'id': suggest.id,
+            'class_name': config.classname_widget ~ '-suggest-save',
+            'text': "Сохранить"
+        } %}
+        {% include 'controls/cancel_button' ~ tpl_format with {
+            'id': suggest.id,
+            'class_name': config.classname_widget ~ '-suggest-cancel'
+        } %}
+    </div>
+    <div class="{{config.classname_widget}}-footer-right">
+        {% include 'controls/button' ~ tpl_format with {
+            'id': suggest.id,
+            'class_name': config.classname_widget ~ '-suggest-delete '~config.classname_widget ~'-button-lighten',
+            'svg_class_name': 'common--trash',
+            'text': "Удалить настройку"
+        } %}
+    </div>
+</div>

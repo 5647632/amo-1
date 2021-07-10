@@ -1,0 +1,90 @@
+<div class="{{config.classname_widget}}_list-table table-settings-roles">
+    <div class="{{config.classname_widget}}_list-row head-list">
+        <div class="{{config.classname_widget}}_list-row-cell {{config.classname_widget}}_cell-head" data-sort="name">
+            <div class="{{config.classname_widget}}_cell-head__inner">
+                <div class="{{config.classname_widget}}_cell-head__inner-content">
+                    <span class="{{config.classname_widget}}_cell-head__inner-title">{{ translate('roles.user') }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="{{config.classname_widget}}_list-row-cell {{config.classname_widget}}_cell-head" data-sort="is_active" style="width: 20%">
+            <div class="p{{config.classname_widget}}_cell-head__inner">
+                <div class="{{config.classname_widget}}_cell-head__inner-content">
+                    <span class="{{config.classname_widget}}_cell-head__inner-title">{{ translate('roles.is_active') }}</span>
+                </div>
+            </div>
+        </div>
+        {% if data.need_admin is defined and data.need_admin %}
+            <div class="{{config.classname_widget}}_list-row-cell {{config.classname_widget}}_cell-head" data-sort="is_admin" style="width: 15%">
+                <div class="{{config.classname_widget}}_cell-head__inner">
+                    <div class="{{config.classname_widget}}_cell-head__inner-content">
+                        <span class="{{config.classname_widget}}_cell-head__inner-title">{{ translate('roles.is_admin') }}</span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% for manager in data.managers %}
+        {% if manager.active %}
+            {% set is_active = false %}
+            {% set is_admin = false %}
+            {% if  config.users is defined  and config.users not empty %}
+                {% for user in config.users %}
+                    {% if manager.id == user.id %}
+                        {% set is_active = user.is_active %}
+                        {% set is_admin = user.is_admin %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% if data.local_roles.active_users is defined   %}
+                    {% for key, check in data.local_roles.active_users %} 
+                        {% if manager.id == key and check == 1  %}
+                            {% set is_active = true %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if data.need_admin is defined and data.need_admin %}
+                    {% if data.local_roles.admin_users is defined   %}
+                        {% for key, check in data.local_roles.admin_users %} 
+                            {% if manager.id == key and check == 1  %}
+                                {% set is_admin = true %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+                
+            <div class="{{config.classname_widget}}_list-row list-item">
+                <div class="{{config.classname_widget}}_list-row-cell">
+                    <div class="{{config.classname_widget}}_cell-table__item-inner">
+                        <span>{{manager.title}}</span>
+                    </div>
+                </div>
+                <div class="{{config.classname_widget}}_list-row-cell">
+                    <div class="{{config.classname_widget}}_cell-table__item-inner centered">
+                        {% set vars = {
+                            'fieldId': manager.id, 
+                            'class_name': 'custom_active_users',
+                            'additional_data': 'data-name="active_users[' ~ manager.id ~ ']"' ,
+                            'checked': is_active,
+                        } %}
+                        {% include 'controls/checkbox' ~ tpl_format with vars %}
+                    </div>
+                </div>
+                {% if data.need_admin is defined and data.need_admin %}
+                    <div class="{{config.classname_widget}}_list-row-cell">
+                        <div class="{{config.classname_widget}}_cell-table__item-inner centered">
+                            {% set vars = {
+                                'fieldId': manager.id, 
+                                'class_name': 'custom_admin_users',
+                                'additional_data': 'data-name="admin_users[' ~ manager.id ~ ']"' ,
+                                'checked': is_admin,
+                            } %}
+                            {% include 'controls/checkbox' ~ tpl_format with vars %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}    
+    {% endfor %}
+</div>

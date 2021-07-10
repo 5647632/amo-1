@@ -1,0 +1,46 @@
+<div class="{{config.classname_widget}}-settings-setup">
+    <div class="{{config.classname_widget}}-settings-input-row">
+        <div class="{{config.classname_widget}}-settings-input-title">{{ translate('settings.setup.phone') }} <span style="color: red">*</span></div>
+        <div class="{{config.classname_widget}}-settings-input">
+            {% include 'controls/input'~tpl_format with {
+                'id': "phone",
+                'additional_data': 'data-local-key="phone" data-required="true" data-pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"',
+                'placeholder': translate('settings.setup.phone_placeholder'),
+                'value': config.phone is defined ? config.phone : local_config.phone,
+            } %}
+        </div>
+    </div>
+    <div class="{{config.classname_widget}}-settings-input-row">
+        <div class="{{config.classname_widget}}-settings-input-title">{{ translate('settings.setup.api_key') }} <span style="color: red">*</span></div>
+        <div class="{{config.classname_widget}}-settings-input">
+            {% include 'controls/input' ~ tpl_format with {
+                'id': "api_token",
+                'additional_data': 'data-local-key="api_token" data-required="true" data-pattern="^[a-z0-9+]{30,60}$"',
+                'placeholder': translate('settings.setup.api_key'),
+                'value': config.api_key is defined ? config.api_key : local_config.api_token,
+            } %}
+        </div>
+    </div>
+    <div class="{{config.classname_widget}}-settings-input-row">
+        <div class="{{config.classname_widget}}-settings-input-title">{{ translate('settings.setup.standard_key') }}</div>
+        <div class="{{config.classname_widget}}-settings-input">
+            {% include 'controls/input' ~ tpl_format with {
+                'id': "standard_token",
+                'additional_data': 'data-local-key="standard_token" data-required="false" data-pattern="^[a-z0-9+]{30,60}$"',
+                'placeholder': translate('settings.setup.standard_key'),
+                'value': config.standard_key is defined ? config.standard_key : local_config.standard_token,
+            } %}
+        </div>
+    </div>
+    <div class="{{config.classname_widget}}-settings-input-row">
+        <div class="{{config.classname_widget}}-settings-input-title">{{ translate('settings.setup.plan') }}</div>
+        <div class="{{config.classname_widget}}-settings-input">
+            {% include 'controls/select' ~ tpl_format with {
+                'id': "plan",
+                'additional_data': 'data-local-key="plan"',
+                'selected': config.plan is defined ? config.plan : local_config.plan,
+                'items': plan_items
+            } %}
+        </div>
+    </div>
+</div>

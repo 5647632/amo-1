@@ -1,0 +1,91 @@
+{
+    "widget": {
+        "name": "widget.name",
+        "description": "widget.description",
+        "short_description": "widget.short_description",
+        "version": "1.0",
+        "interface_version": 2,
+        "init_once": false,
+        "locale": [
+            "ru"
+        ],
+        "installation": true,
+        "support": {
+            "link": "https://www.amocrm.com",
+            "email": "support@amocrm.com"
+        }
+    },
+    "locations": [
+        "settings",
+        "lcard-0",
+        "ccard-0",
+		"clist-0",
+		"cucard-0",
+        "comcard-0",
+        "digital_pipeline",
+        "advanced_settings"
+    ],
+    "tour": {
+        "is_tour": true,
+        "tour_images": {
+            "ru": [
+                "/images/tour_dadata_1.png",
+                "/images/tour_dadata_2.png",
+                "/images/tour_dadata_3.png",
+                "/images/tour_dadata_4.png"
+            ]
+        },
+        "tour_description": "widget.tour_description"
+    },
+    "settings": {
+        "token": {
+            "name": "settings.token",
+            "type": "text",
+            "required": true
+        },
+        "widget_id": {
+            "name": "settings.widget_id",
+            "type": "custom",
+            "required": false
+        },
+        "active_users": {
+            "name": "settings.active_users",
+            "type": "users",
+            "required": false
+        },
+        "phone": {
+            "name": "settings.phone",
+            "type": "text",
+            "required": false
+        },
+        "api_token": {
+            "name": "settings.api_token",
+            "type": "text",
+            "required": false
+        },
+        "standard_token": {
+            "name": "settings.standard_token",
+            "type": "text",
+            "required": false
+        },
+        "plan": {
+            "name": "settings.plan",
+            "type": "text",
+            "required": false
+        }
+    },
+    "dp": {
+        "settings": {
+            "suggests": {
+                "name": "dp.suggests",
+                "type": "text",
+                "required": true
+            }
+        },
+        "action_multiple": false,
+        "webhook_url": "https://foobar.host/dadata/webhook.php"
+    },
+    "advanced": {
+        "title": "advanced.title"
+    }
+}

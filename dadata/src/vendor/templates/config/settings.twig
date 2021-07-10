@@ -1,0 +1,26 @@
+{% set filtred_tabs = [] %}
+
+{% for tab in tabs %}
+    {% if status in tab.visible_status %}
+        {% set filtred_tabs = filtred_tabs|merge([tab]) %}
+    {% endif %}
+{% endfor %}
+
+<div class="{{config.classname_widget}}_wraper {{status}}">  
+    <div class="{{config.classname_widget}}-tabs-wraper">
+        {% if filtred_tabs|length > 1 %} 
+            <ul class="{{config.classname_widget}}_tabs">
+                {% for tab in filtred_tabs %}
+                    <li class="{{config.classname_widget}}-tab-link {% if active_tab == tab.code %} {{config.classname_widget}}-current {% endif %}" data-tab="{{tab.code}}">
+                        <span>{{tab.title}}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% for tab in filtred_tabs %}
+            <div id="{{tab.code}}" class="{{config.classname_widget}}-tab-content {% if active_tab == tab.code %} {{config.classname_widget}}-current {% endif %}">
+                {% include "config/" ~ tab.code ~ tpl_format with {'data': tab} %}
+            </div>
+        {% endfor  %}
+    </div>
+</div>

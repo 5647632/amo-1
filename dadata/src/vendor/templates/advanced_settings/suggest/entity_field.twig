@@ -1,0 +1,31 @@
+{% if entity_selected is not defined %}
+    {% set entity_selected = 2 %}
+{% endif %}
+{% if entity_selected is not defined %}
+    {% set field_selected = null %}
+{% endif %}
+<div class="{{config.classname_widget}}-field-value select-entity">
+    <div class="{{config.classname_widget}}-label">Сущность</div>
+    {% include ('controls/select' ~ tpl_format) with {
+        'id': 'entity_' ~ id,
+        'name': entity_name,
+        'selected': entity_selected,
+        'selected_before': 'Сущность:',
+        'items': [
+            {'id': '1', 'option': translate('advanced_settings.entity.1') },
+            {'id': '2', 'option': translate('advanced_settings.entity.2') },
+            {'id': '3', 'option': translate('advanced_settings.entity.3') },
+			{'id': '12', 'option': translate('advanced_settings.entity.12') },
+        ]
+    } %}
+</div>
+<div class="{{config.classname_widget}}-field-value select-field" title="{{title_field}}">
+    {% include 'advanced_settings/suggest/field' ~ tpl_format with {
+        'entity_selected': entity_selected,
+        'current_account': current_account,
+        'selected': field_selected,
+        'name': field_name,
+        'placeholder': 'Поле',
+        'id': id,
+    } %}
+</div>

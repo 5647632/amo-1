@@ -1,0 +1,14 @@
+<div class="modal-body__inner">
+	<h2 class="modal-body__caption head_2">{{header}}</h2>
+	<p class="modal-body__paragraph-text">{{confirm_text_1}}</p>
+	<p class="modal-body__paragraph-text">{{confirm_text_2}}</p>
+	<div class="modal-body__actions ">
+		{% include 'controls/button'~tpl_format with {
+			'class_name': 'js-modal-accept js-button-with-loader modal-body__actions__save',
+			'text': accept_text,
+		} %}
+		{% include 'controls/cancel_button'~tpl_format with {
+			'text': cancel_text
+		} %}
+	</div>
+</div>

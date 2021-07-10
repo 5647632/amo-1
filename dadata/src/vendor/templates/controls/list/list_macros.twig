@@ -1,0 +1,64 @@
+{# template-name #}
+{% macro template_name(name, link, has_tags, tags, tag_classname, need_escape) %}
+	{% if need_escape|default(false) %}{% set name = name|escape %}{% endif %}
+	<div class="content-table__item__inner content-table__item__inner-template-name {% if has_tags %}has-tags{% endif %}">
+	    <div class="list-row__template-name__name">
+	        <a href="{{ link|url_encode }}" class="js-navigate-link list-row__template-name__table-wrapper__name-link" title="{{name}}">{{name}}</a>
+	    </div>
+	    {% if has_tags|default(false) %}
+	    	<div class="list-row__template-name__tags js-list-tag">
+	        	<div class="{{tag_classname}}__tags-inner" data-rest="{{ tags|length }}">
+	        		{% if tags|default([])|length %}
+		        		{% for key, tag in tags|reverse %}
+		        			<span class="{{tag_classname}}__tag" data-id="{{tag.id}}" data-rest="{{key}}">{{tag.name}}</span>
+		        		{% endfor %}
+		        	{% else %}
+		        		<span class="{{tag_classname}}__tag {{tag_classname}}__tag-add"></span>
+		        	{% endif %}
+	        	</div>
+	    	</div>
+	    {% endif %}
+	</div>
+{% endmacro %}
+{# template-name #}
+
+{# template-text #}
+{% macro template_text(text) %}
+	<div class="content-table__item__inner" title="{{text}}">
+		<span class="block-selectable">{{text}}</span>
+	</div>
+{% endmacro %}
+{# template-text #}
+
+{# template-rights #}
+{% macro template_rights(rights) %}
+	<div class="content-table__item__inner  content-table__item__inner-template-rights">
+		{% for right in rights %}
+			<li data-type="{{right.type}}" class="{{right.class}}" title="{{right.title}}"></li>
+		{% endfor %}
+	</div>
+{% endmacro %}
+{# template_rights #}
+
+{# template-checkbox #}
+{% macro template_checkbox(id) %}
+	<div class="content-table__item__inner">
+		{% include 'controls/checkbox' ~ tpl_format with {'id': id } %}
+	</div>
+{% endmacro %}
+{# template-checkbox #}
+
+{# template-switcher #}
+{% macro template_switcher(id, name, checked) %}
+	<div class="content-table__item__inner">
+		<div class="switcher_wrapper">
+			<label for="{{id}}" class="switcher switcher__{% if checked %}on{% else %}off{% endif %}" id=""></label>
+			<input type="checkbox" value="{% if checked %}Y{% else %}N{% endif %}" name="{{name}}" id="{{id}}" class="switcher__checkbox" {% if checked %}checked{% endif %}>
+		</div>
+	</div>
+{% endmacro %}
+{# template-switcher #}
+
+{% macro template_actions(actions, tpl_format) %}
+	{% include ('controls/button' ~ tpl_format) with actions %}   
+{% endmacro %}

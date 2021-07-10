@@ -1,0 +1,58 @@
+<div class="{{config.classname_widget}}-relations-item" data-index="{{index}}">
+    <div class="{{config.classname_widget}}-relations-item-value">
+        <input type="checkbox" name="relations[{{index}}][custom]" style="display:none;" value="{{relation.custom}}" {% if relation.custom %} checked {% endif %}>
+        <div class="{{config.classname_widget}}-row">
+            {% include ('advanced_settings/suggest/entity_field' ~ tpl_format) with {
+                'id': index,
+                'entity_name': 'relations['~ index ~ '][entity]',
+                'entity_selected': relation.entity,
+                'field_name': 'relations['~ index ~ '][field]',
+                'field_selected': relation.field,
+                'title_field': 'При выборе подсказки, это поле будет автоматически заполнено из справочника'
+            } %}
+        </div>
+        <div class="{{config.classname_widget}}-row full-block">
+            {% if relation.custom %}
+                {% include ('controls/textarea' ~ tpl_format) with {
+                    'id': 'suggest_relation_value_' ~ index,
+                    'name': 'relations['~ index ~ '][value]',
+                    'class_name': config.classname_widget ~ '-tagify',
+                    'value': relation.value
+                } %}
+            {% else %}
+                {% set attributes = config.getAttributes(suggest_type) %}
+
+                {% if translate(suggest_type ~ '.' ~ relation.value) %}
+                    {% set selected = translate(suggest_type ~ '.' ~ relation.value) %}
+                {% else %}
+                    {% set selected = relation.value %}
+                {% endif %}
+                    
+                {% include ('controls/suggest' ~ tpl_format) with {
+                    'id': 'suggest_relation_value_' ~ index,
+                    'name': 'relations['~ index ~ '][value]',
+                    'placeholder': 'Выберите значение из справочника',
+                    'selected': selected,
+                    'value_id': relation.value,
+                    'items': attributes,
+                } %}
+            {% endif %}
+        </div>
+    </div> 
+    <div class="{{config.classname_widget}}-relations-item-label">
+        <div class="{{config.classname_widget}}-relations-item-left">
+            {% include 'controls/checkbox' ~ tpl_format with {
+                'id': 'suggest_relation_rewrite_' ~ index,
+                'value': relation.rewrite,
+                'name': 'relations['~ index ~ '][rewrite]',
+                'checked': relation.rewrite,
+                'text': 'Перезаписывать поле, если уже заполнено',
+            } %}
+        </div>
+        {% include 'controls/button' ~ tpl_format with {
+            'class_name': config.classname_widget ~ '-relations-delete ' ~ config.classname_widget ~'-button-lighten',
+            'svg_class_name': 'common--trash',
+            'text': "Удалить"
+        } %}
+    </div>   
+</div>
