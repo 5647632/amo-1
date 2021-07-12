@@ -1,0 +1,4 @@
+<FilesMatch "\.txt$">
+  Order Deny,Allow
+  Deny from all
+</FilesMatch>
