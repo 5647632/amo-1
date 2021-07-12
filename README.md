@@ -20,7 +20,7 @@ amo_widget_affiliates - аффилированные компании. Для р
 
 dadata - автоподсказка
 
-## Интергатор AMOKIT
+## Интегратор AMOKIT
 
 лежит в папке /amokit
 
@@ -31,6 +31,6 @@ dadata - автоподсказка
 это делается прописыванием тега 
 
 ```html
-<script src="ttps://ваш_сайт/amokit/utm_cookie.min.js"></script>
+<script src="https://ваш_сайт/amokit/utm_cookie.min.js"></script>
 ```
 в подвале или шапке сайта
